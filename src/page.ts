@@ -1,6 +1,6 @@
-import '../types'
-const puppeteer = require('puppeteer')
-import { Browser, Page } from 'puppeteer'
+import "../types";
+const puppeteer = require("puppeteer");
+import { Browser, Page } from "puppeteer";
 
 export async function startBrowser(): Promise<Browser> {
     return await puppeteer.launch();
@@ -15,4 +15,3 @@ export async function open(url: string, browser: Browser): Promise<Page> {
     await page.goto(url);
     return page;
 }
-

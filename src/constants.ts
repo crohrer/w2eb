@@ -1,2 +1,2 @@
 export const storageFileName = "storage.json";
-export const htmlDirectoryName = 'html'
+export const htmlDirectoryName = "html";

@@ -1,14 +1,14 @@
 interface Collection {
-    chapters: Chapter[]
+    chapters: Chapter[];
 }
 
 interface Chapter {
     title?: string;
     author?: string;
-    tags?: string[]; // chapter tags
+    tags?: string; // chapter tags
     webpages: Webpage[];
     url?: string; // page with links to multiple webpages for this chapter
-    linkSelector?: string // selector for the links to the webpages
+    linkSelector?: string; // selector for the links to the webpages
 }
 
 interface Webpage {
@@ -20,9 +20,11 @@ interface Webpage {
 }
 
 interface AddChapterOptions {
-    next?: string,
-    content?: string,
-    ignore?: string,
+    next?: string;
+    content?: string;
+    ignore?: string;
+    title?: string;
+    author?: string;
 }
 
 interface ChapterListOptions extends AddChapterOptions {

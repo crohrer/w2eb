@@ -3,7 +3,7 @@
         {
             "title": "Story X",
             "author": "ACME",
-            "tags": [],
+            "tags": "",
             "webpages": [
                 {
                     "next": "a.next-page",
