@@ -1,0 +1,18 @@
+{
+    "chapters": [
+        {
+            "title": "Story X",
+            "author": "ACME",
+            "tags": [],
+            "webpages": [
+                {
+                    "next": "a.next-page",
+                    "content": ".content",
+                    "ignore": ".ad-block",
+                    "url": "https://foo.com",
+                    "html": "<p>Content</p>"
+                }
+            ]
+        }
+    ]
+}

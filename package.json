@@ -1,0 +1,21 @@
+{
+  "name": "w2eb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "bin": {
+    "w2eb": "index.js"
+  },
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^8.3.0",
+    "fs-extra": "^10.0.0",
+    "puppeteer": "^13.0.1",
+    "ts-node": "^10.4.0"
+  }
+}
