@@ -1,5 +1,6 @@
 #!/usr/bin/env ts-node
 import { addChapter } from "./src/add-chapter";
+import { outputEbook } from "./src/output-ebook";
 import { storageFileName } from "./src/constants";
 import { crawl } from "./src/crawl";
 import "./types";
@@ -32,8 +33,14 @@ program
 program
     .command("crawl")
     .description(
-        `completes data in ${storageFileName} by requesting the urls for the missing html.`
+        `collects the html contents by requesting the chapter urls.`
     )
     .action(crawl);
+
+program
+    .command("export")
+    .option("-t, --title <bookTitle>", "Title of the book.")
+    .description("exports collected data as an e-book")
+    .action(outputEbook);
 
 program.parse();

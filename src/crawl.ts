@@ -1,6 +1,6 @@
 import { Page } from "puppeteer";
 import { isUrlDuplicate } from "./add-chapter";
-import { startBrowser, open, stopBrowser } from "./page";
+import { startBrowser, open, stopBrowser, getHtml, getHref } from "./page";
 import { readStorage, writeStorage, sha256, writeHtml } from "./storage";
 
 export async function crawl() {
@@ -12,24 +12,21 @@ export async function crawl() {
         for (let j = 0; j < webpages.length; j++) {
             const { html, url, content, ignore, next } = webpages[j];
             const id = `chapter[${i}] webpage[${j}]`;
-            if (html) break;
+            if (html) continue;
             if (!url) {
                 console.log(`${id} does not have a url`);
-                break;
+                continue;
             }
             console.log(`${id}: requesting ${url}`);
             await open(url, browser)
                 .then(async (page) => {
-                    const contentHtml = await getElementHtml(
-                        content || "body",
-                        page
-                    );
-                    if (contentHtml === null) {
+                    const html = await getHtml(page);
+                    if (html === null) {
                         console.log(`${id}: content element not found`);
                         return;
                     }
                     const hash = `${sha256(url)}`;
-                    writeHtml(hash, contentHtml);
+                    writeHtml(hash, html);
                     data.chapters[i].webpages[j].html = hash;
                     webpagesCount++;
                     if (next) {
@@ -53,19 +50,4 @@ export async function crawl() {
     }
     await stopBrowser(browser);
     console.log(`added HTML for ${webpagesCount} webpages.`);
-}
-
-async function getElementHtml(
-    selector: string,
-    page: Page
-): Promise<string | null> {
-    return page
-        .$eval(selector, (element) => element.innerHTML)
-        .then((result) => (!result ? null : result));
-}
-
-async function getHref(selector: string, page: Page): Promise<string | null> {
-    return page
-        .$eval(selector, (element) => element.getAttribute("href"))
-        .then((result) => (!result ? null : result));
 }
