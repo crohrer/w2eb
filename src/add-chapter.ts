@@ -1,4 +1,5 @@
 import "../types";
+import { getText } from "./page";
 import { readStorage, writeStorage } from "./storage";
 
 export async function addChapter(
@@ -12,9 +13,7 @@ export async function addChapter(
         return;
     }
     const newChapter: Chapter = {
-        author,
-        title,
-        webpages: [{ url, content, next, ignore }],
+        webpages: [{ url, content, next, ignore, title, author }],
     };
     data.chapters.push(newChapter);
     writeStorage(data);

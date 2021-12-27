@@ -1,6 +1,6 @@
 import { Page } from "puppeteer";
 import { isUrlDuplicate } from "./add-chapter";
-import { startBrowser, open, stopBrowser, getHtml, getHref } from "./page";
+import { startBrowser, open, stopBrowser, getHtml, getHref, getText } from "./page";
 import { readStorage, writeStorage, sha256, writeHtml } from "./storage";
 
 export async function crawl() {
@@ -10,7 +10,7 @@ export async function crawl() {
     for (let i = 0; i < data.chapters.length; i++) {
         const { webpages } = data.chapters[i];
         for (let j = 0; j < webpages.length; j++) {
-            const { html, url, content, ignore, next } = webpages[j];
+            const { html, url, content, ignore, next, title, author } = webpages[j];
             const id = `chapter[${i}] webpage[${j}]`;
             if (html) continue;
             if (!url) {
@@ -29,6 +29,12 @@ export async function crawl() {
                     writeHtml(hash, html);
                     data.chapters[i].webpages[j].html = hash;
                     webpagesCount++;
+                    if(title){
+                        data.chapters[i].title = await getText(title, page);
+                    }
+                    if(author){
+                        data.chapters[i].author = await getText(author, page);
+                    }
                     if (next) {
                         const href = await getHref(next, page);
                         if (href && !isUrlDuplicate(href, data)) {
@@ -37,6 +43,7 @@ export async function crawl() {
                                 content,
                                 ignore,
                                 next,
+                                // we don't copy author and title because those are only needed once
                             });
                         }
                     }
