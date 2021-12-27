@@ -53,5 +53,8 @@ function getCleanHtml(webpage: Webpage, options: { images: boolean }): string {
     if(!options.images){
         dom.window.document.querySelectorAll("img").forEach((el) => el.remove());
     }
-    return dom.window.document.querySelector(content || "body").innerHTML;
+    let contentElement =
+        dom.window.document.querySelector(content || "body") ||
+        dom.window.document.querySelector("body");
+    return contentElement.innerHTML;
 }

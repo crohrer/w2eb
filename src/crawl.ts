@@ -1,6 +1,13 @@
 import { Page } from "puppeteer";
 import { isUrlDuplicate } from "./add-chapter";
-import { startBrowser, open, stopBrowser, getHtml, getHref, getText } from "./page";
+import {
+    startBrowser,
+    open,
+    stopBrowser,
+    getHtml,
+    getHref,
+    getText,
+} from "./page";
 import { readStorage, writeStorage, sha256, writeHtml } from "./storage";
 
 export async function crawl() {
@@ -10,7 +17,8 @@ export async function crawl() {
     for (let i = 0; i < data.chapters.length; i++) {
         const { webpages } = data.chapters[i];
         for (let j = 0; j < webpages.length; j++) {
-            const { html, url, content, ignore, next, title, author } = webpages[j];
+            const { html, url, content, ignore, next, title, author } =
+                webpages[j];
             const id = `chapter[${i}] webpage[${j}]`;
             if (html) continue;
             if (!url) {
@@ -29,10 +37,10 @@ export async function crawl() {
                     writeHtml(hash, html);
                     data.chapters[i].webpages[j].html = hash;
                     webpagesCount++;
-                    if(title){
+                    if (title) {
                         data.chapters[i].title = await getText(title, page);
                     }
-                    if(author){
+                    if (author) {
                         data.chapters[i].author = await getText(author, page);
                     }
                     if (next) {
@@ -49,6 +57,7 @@ export async function crawl() {
                     }
                     writeStorage(data);
                     await page.close();
+                    await delay(1000 + 3000 * Math.random());
                 })
                 .catch((error) =>
                     console.log(`${id} caused a puppeteer error: ${error}`)
@@ -57,4 +66,10 @@ export async function crawl() {
     }
     await stopBrowser(browser);
     console.log(`added HTML for ${webpagesCount} webpages.`);
+}
+
+async function delay(ms:number):Promise<void> {
+    return (
+        new Promise((resolve) => setTimeout(resolve, ms))
+    );
 }
