@@ -1,5 +1,5 @@
 node_modules
-html
-storage.json
-src/old-code
+/html*
+/storage*.json
+/src/old-code
 *.epub

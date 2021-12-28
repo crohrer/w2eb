@@ -49,9 +49,9 @@ function getCleanHtml(webpage: Webpage, options: { images: boolean }): string {
     const {content, html, ignore} = webpage;
     const htmlString = html ? readHtml(html) : "";
     const dom = new JSDOM(htmlString);
-    dom.window.document.querySelectorAll(ignore).forEach((el) => el.remove());
+    dom.window.document.querySelectorAll(ignore).forEach((el: HTMLElement) => el.remove());
     if(!options.images){
-        dom.window.document.querySelectorAll("img").forEach((el) => el.remove());
+        dom.window.document.querySelectorAll("img").forEach((el: HTMLImageElement) => el.remove());
     }
     let contentElement =
         dom.window.document.querySelector(content || "body") ||
